@@ -1,0 +1,30 @@
+{
+  "name": "objection-auth",
+  "version": "1.0.0",
+  "description": "Authentication methods for Objection.js.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "$(npm bin)/jest -c ./test/support/jest.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "jsonwebtoken": "^8.1.1"
+  },
+  "devDependencies": {
+    "babel-jest": "^22.4.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "expect": "^22.1.0",
+    "jest": "^22.4.2",
+    "knex": "^0.14.4",
+    "objection": "^1.0.0",
+    "sinon": "^4.4.2",
+    "sqlite3": "^3.1.13"
+  }
+}
