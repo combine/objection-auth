@@ -1,4 +1,3 @@
-import expect from 'expect';
 import User from '../../support/User';
 
 describe('Authenticatable', function() {

@@ -20,7 +20,6 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "expect": "^22.1.0",
     "jest": "^22.4.2",
     "knex": "^0.14.4",
     "objection": "^1.0.0",

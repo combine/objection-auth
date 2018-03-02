@@ -1,4 +1,3 @@
-import expect from 'expect';
 import sinon from 'sinon';
 import User from '../../support/User';
 
