@@ -1,5 +1,4 @@
 import { Model } from 'objection';
-import knexCleaner from 'knex-cleaner';
 import db from '../db';
 
 Model.knex(db);
