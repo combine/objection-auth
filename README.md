@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/combine/objection-auth.svg?branch=master)](https://travis-ci.org/combine/objection-auth)
+[![Coverage Status](https://coveralls.io/repos/github/combine/objection-auth/badge.svg?branch=master)](https://coveralls.io/github/combine/objection-auth?branch=master)
+
 # Authentication for Objection.js
 
 This package includes plugins useful for authentication for websites:
