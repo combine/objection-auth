@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import { Authenticatable, Recoverable, Tokenable } from '../../index';
+import { Authenticatable, Recoverable, Tokenable } from '../../src/index';
 
 const AuthModel = Authenticatable(
   Recoverable(
