@@ -1,12 +1,14 @@
 import { Model } from 'objection';
+import knexCleaner from 'knex-cleaner';
 import db from '../db';
 
-// Bind all models to Knex
 Model.knex(db);
 
 // Global beforeAll()
-beforeAll(async function() {
-  // Add stubs, etc. here.
-  await db.migrate.rollback();
-  await db.migrate.latest();
+beforeAll(function() {
+  db.migrate.rollback().then(() => {
+    db.migrate.latest().then(() => {
+      console.log('DB migrated.');
+    });
+  });
 });
