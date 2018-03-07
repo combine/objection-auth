@@ -140,9 +140,5 @@ await user.decodeJWT();
 #### `expiresIn` (defaults to `604800` (7 days))
 The expiration time of the json web token.
 
-#### `cookieName` (defaults to `jwt`)
-The name of the cookie to store the token on. You must pass an express-like
-`response` object to `generateJWT()`.
-
 #### `secretToken` (defaults to `process.env.SECRET_TOKEN`)
 The

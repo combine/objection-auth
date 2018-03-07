@@ -21,10 +21,9 @@ module.exports = (Model, options = {}) => {
     /**
      * generateJWT()
      * Generates a JSON Web Token for the model
-     * @param {Object} response - (optional) Response obj to set cookies with.
      * @return {Promise} A promise containing an error or the encoded token.
      */
-    generateJWT = (response = null) => {
+    generateJWT = () => {
       const env = process.env.NODE_ENV || 'development';
       const currTime = new Date();
       const expiration = new Date(currTime.getTime() + opts.expiresIn * 1000);
@@ -46,15 +45,6 @@ module.exports = (Model, options = {}) => {
         jwt.sign(payload, opts.secretToken, (err, token) => {
           if (err) {
             return reject(err);
-          }
-
-          // If response in arguments, set the cookie
-          if (response && opts.cookieName) {
-            const cookie = {
-              secure: ['development', 'test'].indexOf(env) === -1,
-              maxAge: expTime
-            };
-            response.cookie(opts.cookieName, token, cookie);
           }
 
           return resolve(token);
