@@ -58,9 +58,7 @@ module.exports = (Model, options) => {
           throw new Error('bcrypt tried to hash another bcrypt hash');
         }
 
-        return bcrypt.hash(password, opts.saltRounds).then(hash => {
-          return hash;
-        });
+        return bcrypt.hash(password, opts.saltRounds);
       }
 
       return Promise.resolve();
