@@ -1,5 +1,10 @@
 # Changelog
 
+## [v3.0.0](https://github.com/combine/objection-auth/tree/v3.0.0)
+
+- **BREAKING**: Minor refactor of option names. Technically breaking, so bump
+  to v3.
+
 ## [v2.0.0](https://github.com/combine/objection-auth/tree/v2.0.0)
 
 - **BREAKING**: Properly implement plugins as class mixins.
