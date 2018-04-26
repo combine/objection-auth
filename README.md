@@ -65,7 +65,7 @@ const { Model } = require('objection');
 const RecoverableModel = Recoverable({
   tokenField: 'resetPasswordToken',
   tokenExpField: 'resetPasswordExp',
-  expiresIn: 3600
+  expiresIn: 60
 })(Model);
 
 // Create your model.
@@ -93,8 +93,8 @@ The field that the reset token is stored on.
 #### `tokenExpField` (defaults to `resetPasswordExp`)
 The field that the expiration date is stored on.
 
-#### `expiresIn` (defaults to `3600`)
-The expiration time of the token, in seconds.
+#### `expiresIn` (defaults to `60` minutes)
+The expiration time of the token, in minutes.
 
 
 ### Tokenable
@@ -106,10 +106,8 @@ const { Model } = require('objection');
 
 // Mixin the plugin.
 const TokenableModel = Tokenable({
-  // expiration time in seconds (default: 7 days)
-  expiresIn: 604800,
-  // name of the cookie to store
-  cookieName: 'jwt',
+  // expiration time in minutes (default: 7 days)
+  expiresIn: 10080,
   // the secret token to use to authenticate the JWT
   secretToken: '!secret!'
 })(Model);
@@ -159,7 +157,7 @@ const mixins = compose(
   Recoverable({
     tokenField: 'resetPasswordToken',
     tokenExpField: 'resetPasswordExp',
-    expiresIn: 3600
+    expiresIn: 60
   }),
   Tokenable({ secretOrPrivateKey: 'secret' })
 );

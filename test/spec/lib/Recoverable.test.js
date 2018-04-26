@@ -28,8 +28,8 @@ describe('Recoverable', function() {
     });
 
     test('sets the expiration date to the specified time', async function() {
-      await user.generateResetToken(7200);
-      const exp = new Date(currTime.getTime() + (7200 * 1000));
+      await user.generateResetToken(120);
+      const exp = new Date(currTime.getTime() + (120 * 60 * 1000));
 
       expect(user.resetPasswordExp).toEqual(exp.toISOString());
     });
