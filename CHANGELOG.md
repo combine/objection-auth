@@ -1,5 +1,9 @@
 # Changelog
 
+## [v3.0.1](https://github.com/combine/objection-auth/tree/v3.0.0)
+
+- Set options to minutes instead of seconds.
+
 ## [v3.0.0](https://github.com/combine/objection-auth/tree/v3.0.0)
 
 - **BREAKING**: Minor refactor of option names. Technically breaking, so bump
