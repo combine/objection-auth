@@ -1,13 +1,11 @@
 import { Model } from 'objection';
 import { Authenticatable, Recoverable, Tokenable } from '../../src/index';
 
-const AuthModel = Authenticatable(
-  Recoverable(
-    Tokenable(Model, { secretToken: 'secret' })
-  )
-);
+const Auth = Authenticatable({});
+const Recover = Recoverable();
+const Tokenize = Tokenable({ secretOrPrivateKey: 'secret' });
 
-export default class User extends AuthModel {
+export default class User extends Tokenize(Recover(Auth(Model))) {
   static modelPaths = [__dirname];
   static tableName = 'users';
   static jsonSchema = {

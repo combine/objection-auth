@@ -20,14 +20,14 @@ npm install objection-auth
 
 ```js
 // Import the plugin.
-const { Authenticatable }= require('objection-auth');
+const { Authenticatable } = require('objection-auth');
 const { Model } = require('objection');
 
 // Mixin the plugin.
-const AuthenticatableModel = Authenticatable(Model, {
+const AuthenticatableModel = Authenticatable({
   passwordField: 'password',
   saltRounds: 12,
-});
+})(Model);
 
 // Create your model.
 class User extends AuthenticatableModel {
@@ -58,15 +58,15 @@ The number of salt rounds as passed to `bcrypt`.
 
 ```js
 // Import the plugin.
-const { Recoverable }= require('objection-auth');
+const { Recoverable } = require('objection-auth');
 const { Model } = require('objection');
 
 // Mixin the plugin.
-const RecoverableModel = Recoverable(Model, {
+const RecoverableModel = Recoverable({
   tokenColumn: 'resetPasswordToken',
   tokenExpColumn: 'resetPasswordExp',
   expiresIn: 3600
-});
+})(Model);
 
 // Create your model.
 class User extends RecoverableModel {
@@ -101,18 +101,18 @@ The expiration time of the token, in seconds.
 
 ```js
 // Import the plugin.
-const { Tokenable }= require('objection-auth');
+const { Tokenable } = require('objection-auth');
 const { Model } = require('objection');
 
 // Mixin the plugin.
-const TokenableModel = Tokenable(Model, {
+const TokenableModel = Tokenable({
   // expiration time in seconds (default: 7 days)
   expiresIn: 604800,
   // name of the cookie to store
   cookieName: 'jwt',
   // the secret token to use to authenticate the JWT
   secretToken: '!secret!'
-});
+})(Model);
 
 // Create your model.
 class User extends TokenableModel {
@@ -137,8 +137,34 @@ await user.decodeJWT();
 ```
 
 #### Options
-#### `expiresIn` (defaults to `604800` (7 days))
-The expiration time of the json web token.
+#### `expiresIn` (defaults to `10080` (7 days))
+The expiration time in minutes.
 
-#### `secretToken` (defaults to `process.env.SECRET_TOKEN`)
-The
+#### `secretOrPrivateKey`
+A string, buffer, or object containing either the secret for HMAC algorithms or
+the PEM encoded private key for RSA and ECDSA. See the full options
+documentation for [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback).
+
+## Chaining Plugins
+
+These plugins can be used together by composing the plugins together:
+
+```js
+
+const { Authenticatable, Recoverable, Tokenable } = require('objection-auth');
+const { compose, Model } = require('objection');
+
+const mixins = compose(
+  Authenticatable({ saltRounds: 10, passwordField: 'pass' }),
+  Recoverable({
+    tokenColumn: 'resetPasswordToken',
+    tokenExpColumn: 'resetPasswordExp',
+    expiresIn: 3600
+  }),
+  Tokenable({ secretOrPrivateKey: 'secret' })
+);
+
+class User extends mixins(Model) {
+  // ...
+}
+```
