@@ -2,16 +2,16 @@ const crypto = require('crypto');
 
 /**
  * Allows the model to be recoverable using a reset token and an expiration.
- * @param {String} opts.tokenColumn: The column name of the reset token.
- * @param {String} opts.tokenExpColumn: The column name of the reset token exp.
+ * @param {String} opts.tokenField: The field name of the reset token.
+ * @param {String} opts.tokenExpField: The field name of the reset token exp.
  * @param {String} opts.duration: The time to expire in seconds (default: 3600)
  * @return {Function} A plugin mixin that accepts an Objection model as an arg.
  */
 
 module.exports = (options = {}) => {
   const opts = Object.assign({
-    tokenColumn: 'resetPasswordToken',
-    tokenExpColumn: 'resetPasswordExp',
+    tokenField: 'resetPasswordToken',
+    tokenExpField: 'resetPasswordExp',
     expiresIn: 3600
   }, options);
 
@@ -32,14 +32,14 @@ module.exports = (options = {}) => {
               const currTime = new Date().getTime();
               const expiration = new Date(currTime + (expiresIn * 1000));
 
-              this[opts.tokenColumn] = token;
-              this[opts.tokenExpColumn] = expiration.toISOString();
+              this[opts.tokenField] = token;
+              this[opts.tokenExpField] = expiration.toISOString();
 
               return this
                 .$query()
                 .patch({
-                  [opts.tokenColumn]: token,
-                  [opts.tokenExpColumn]: expiration.toISOString()
+                  [opts.tokenField]: token,
+                  [opts.tokenExpField]: expiration.toISOString()
                 })
                 .then(resolve)
                 .catch(reject);

@@ -63,8 +63,8 @@ const { Model } = require('objection');
 
 // Mixin the plugin.
 const RecoverableModel = Recoverable({
-  tokenColumn: 'resetPasswordToken',
-  tokenExpColumn: 'resetPasswordExp',
+  tokenField: 'resetPasswordToken',
+  tokenExpField: 'resetPasswordExp',
   expiresIn: 3600
 })(Model);
 
@@ -87,10 +87,10 @@ console.log(user.resetPasswordToken);
 ```
 
 #### Options
-#### `tokenColumn` (defaults to `resetPasswordToken`)
+#### `tokenField` (defaults to `resetPasswordToken`)
 The field that the reset token is stored on.
 
-#### `tokenExpColumn` (defaults to `resetPasswordExp`)
+#### `tokenExpField` (defaults to `resetPasswordExp`)
 The field that the expiration date is stored on.
 
 #### `expiresIn` (defaults to `3600`)
@@ -157,8 +157,8 @@ const { compose, Model } = require('objection');
 const mixins = compose(
   Authenticatable({ saltRounds: 10, passwordField: 'pass' }),
   Recoverable({
-    tokenColumn: 'resetPasswordToken',
-    tokenExpColumn: 'resetPasswordExp',
+    tokenField: 'resetPasswordToken',
+    tokenExpField: 'resetPasswordExp',
     expiresIn: 3600
   }),
   Tokenable({ secretOrPrivateKey: 'secret' })
