@@ -1,5 +1,9 @@
 # Changelog
 
+## [v4.0.0](https://github.com/combine/objection-auth/tree/v4.0.0)
+
+- Deprecate Tokenable.
+
 ## [v3.0.1](https://github.com/combine/objection-auth/tree/v3.0.0)
 
 - Set options to minutes instead of seconds.
