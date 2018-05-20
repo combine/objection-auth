@@ -1,6 +1,6 @@
 {
   "name": "objection-auth",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Authentication methods for Objection.js.",
   "keywords": [
     "auth",
