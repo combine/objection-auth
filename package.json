@@ -43,7 +43,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^2.0.1",
     "jsonwebtoken": "^8.1.1"
   },
   "devDependencies": {
@@ -56,8 +56,8 @@
     "jest": "^22.4.2",
     "knex": "^0.14.4",
     "objection": "^1.0.0",
-    "sinon": "^4.4.2",
-    "sqlite3": "^3.1.13"
+    "sinon": "^5.0.7",
+    "sqlite3": "^4.0.0"
   },
   "peerDependencies": {
     "objection": ">=1.0.0"

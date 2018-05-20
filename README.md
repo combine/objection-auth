@@ -7,7 +7,6 @@ This package includes plugins useful for authentication for websites:
 
 - **Authenticatable** - Generates hashed passwords for a user model. Uses `bcrypt` under the hood.
 - **Recoverable** - Generates password reset tokens.
-- **Tokenable** - Generates JSON Web Tokens for API authentication. Uses `jsonwebtoken` under the hood.
 
 ## Installation
 ```
@@ -96,60 +95,13 @@ The field that the expiration date is stored on.
 #### `expiresIn` (defaults to `60` minutes)
 The expiration time of the token, in minutes.
 
-
-### Tokenable
-
-```js
-// Import the plugin.
-const { Tokenable } = require('objection-auth');
-const { Model } = require('objection');
-
-// Mixin the plugin.
-const TokenableModel = Tokenable({
-  // expiration time in minutes (default: 7 days)
-  expiresIn: 10080,
-  // the secret token to use to authenticate the JWT
-  secretToken: '!secret!'
-})(Model);
-
-// Create your model.
-class User extends TokenableModel {
-  // ...code
-}
-```
-
-#### Generate a JWT
-
-```js
-const user = await User.query().where('id', 1);
-
-await user.generateJWT();
-```
-
-#### Decode a JWT
-
-```js
-const user = await User.query().where('id', 1);
-
-await user.decodeJWT();
-```
-
-#### Options
-#### `expiresIn` (defaults to `10080` (7 days))
-The expiration time in minutes.
-
-#### `secretOrPrivateKey`
-A string, buffer, or object containing either the secret for HMAC algorithms or
-the PEM encoded private key for RSA and ECDSA. See the full options
-documentation for [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback).
-
 ## Chaining Plugins
 
 These plugins can be used together by composing the plugins together:
 
 ```js
 
-const { Authenticatable, Recoverable, Tokenable } = require('objection-auth');
+const { Authenticatable, Recoverable } = require('objection-auth');
 const { compose, Model } = require('objection');
 
 const mixins = compose(
@@ -158,8 +110,7 @@ const mixins = compose(
     tokenField: 'resetPasswordToken',
     tokenExpField: 'resetPasswordExp',
     expiresIn: 60
-  }),
-  Tokenable({ secretOrPrivateKey: 'secret' })
+  })
 );
 
 class User extends mixins(Model) {
