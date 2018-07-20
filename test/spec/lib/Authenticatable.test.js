@@ -1,4 +1,6 @@
 import User from '../../support/User';
+import { Model } from 'objection';
+import { Authenticatable } from '../../../src/index';
 
 describe('Authenticatable', function() {
   let user;
@@ -19,6 +21,50 @@ describe('Authenticatable', function() {
   test('verifies password correctly', async function() {
     const verified = await user.verifyPassword('foobar');
     expect(verified).toBe(true);
+  });
+
+  describe('with an already hashed password', function() {
+    let user2, hash;
+
+    beforeAll(async function() {
+      hash = await user.generateHash('anewhash');
+      user2 = await User.query().insert({
+        name: 'Foo Bar 2',
+        password: hash,
+        email: 'foo2@bar.com'
+      });
+    });
+
+    test('does not hash the already hashed string', function() {
+      expect(user2.password).toEqual(hash);
+    });
+  });
+
+  describe('with strict mode on', function() {
+    let hash;
+
+    beforeAll(async function() {
+      hash = await user.generateHash('helloworld');
+    });
+
+    class StrictUser extends Authenticatable({ strict: true })(Model) {
+      static modelPaths = [__dirname];
+      static tableName = 'users';
+      static jsonSchema = {
+        type: 'object',
+        required: ['password'],
+        properties: {
+          id: { type: 'integer' },
+          password: { type: 'string', minLength: 3, maxLength: 255 }
+        }
+      };
+    }
+
+    test('throws an error', function() {
+      return expect(
+        StrictUser.query().insert({ password: hash })
+      ).rejects.toThrow(/bcrypt tried to hash another bcrypt hash/);
+    });
   });
 
   describe('when updating', function() {

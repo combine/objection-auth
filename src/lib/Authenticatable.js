@@ -7,28 +7,34 @@ const bcrypt = require('bcrypt');
  * import { Authenticatable } from 'objection-auth';
  * import { Model } from 'objection';
  *
- * const authenticatify = Authenticatable({
+ * const auth = Authenticatable({
  *   passwordField: 'password',
  *   saltRounds: 12,
+ *   strict: false
  * });
  *
- * class User extends authenticatify(Model) {
+ * class User extends auth(Model) {
  *   // ...
  * }
  *
- * @param {String} options.passwordField - The password field. Default: 'password'
- * @param {Number} options.unique - Ensure slugs are unique. Default: false
- * @param {Function} A function that takes the model as an argument.
+ * @param {String}  options.passwordField The password field. Default: 'password'
+ * @param {Number}  options.saltRounds    The number of salt rounds.
+ * @param {Boolean} options.strict        Turns on strict mode if true, will throw an error if password is already hashed.
+ * @return {Function}                     A function that takes the model as an argument.
  */
-
-module.exports = (options) => {
+module.exports = options => {
   // Provide some default options
-  const opts = Object.assign({
-    // The password field column
-    passwordField: 'password',
-    // How many salt rounds for salt generation
-    saltRounds: 12,
-  }, options);
+  const opts = Object.assign(
+    {
+      // The password field column
+      passwordField: 'password',
+      // How many salt rounds for salt generation
+      saltRounds: 12,
+      // Turns on or off strict mode.
+      strict: false
+    },
+    options
+  );
 
   return Model => {
     return class extends Model {
@@ -72,17 +78,24 @@ module.exports = (options) => {
        * @param {String} password - The plaintext password to hash
        * @return {String} The hash or null
        */
-      generateHash = (password) => {
+      generateHash = password => {
         if (password) {
           if (this.constructor.isBcryptHash(password)) {
-            throw new Error('bcrypt tried to hash another bcrypt hash');
+            if (opts.strict) {
+              throw new Error(
+                'bcrypt tried to hash another bcrypt hash:',
+                password
+              );
+            }
+
+            return Promise.resolve(password);
           }
 
           return bcrypt.hash(password, opts.saltRounds);
         }
 
         return Promise.resolve();
-      }
+      };
 
       /**
        * Detect rehashing for avoiding undesired effects
