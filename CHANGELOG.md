@@ -1,5 +1,10 @@
 # Changelog
 
+## [v4.1.0](https://github.com/combine/objection-auth/tree/v4.1.0)
+### Changed
+- Detected hashes now resolves to the original hash rather than throwing an
+  error by default. To throw an error, turn on `strict` mode.
+
 ## [v4.0.0](https://github.com/combine/objection-auth/tree/v4.0.0)
 
 - Deprecate Tokenable.
